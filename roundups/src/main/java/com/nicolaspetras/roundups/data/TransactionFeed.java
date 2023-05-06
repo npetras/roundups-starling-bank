@@ -3,8 +3,7 @@ package com.nicolaspetras.roundups.data;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
-@Data
-public class TransactionFeed {
-    private ArrayList<Transaction> transactions;
+public record TransactionFeed(List<Transaction> feedItems) {
 }
