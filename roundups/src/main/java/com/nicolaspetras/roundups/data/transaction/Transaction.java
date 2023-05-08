@@ -1,4 +1,6 @@
-package com.nicolaspetras.roundups.data;
+package com.nicolaspetras.roundups.data.transaction;
+
+import com.nicolaspetras.roundups.data.CurrencyAndAmount;
 
 /**
  * Represents a Starling Bank transaction, it does not include all the fields returned from the API,
