@@ -85,16 +85,33 @@ public class RoundupsService {
     private int calculateTotalRoundup(TransactionFeed transactionFeed) {
         var totalRoundup = 0;
         for (Transaction transaction : transactionFeed.feedItems()) {
-            var roundUpCalculation = 100 - (transaction.amount().minorUnits() % 100);
-            if (roundUpCalculation < 100) {
-                totalRoundup += roundUpCalculation;
-                log.info("Round-up: " + roundUpCalculation + "from Transaction: " + transaction.feedItemUid());
-            } else {
-                log.info("No round-up. Amount: " + transaction.amount().minorUnits() + " Transaction: " + transaction.feedItemUid());
+            // only perform round-ups on specific outbound settled transactions
+            if (isValidRoundUpTransaction(transaction)) {
+                var roundUpCalculation = 100 - (transaction.amount().minorUnits() % 100);
+                if (roundUpCalculation < 100) {
+                    totalRoundup += roundUpCalculation;
+                    log.info("Round-up: " + roundUpCalculation + "from Transaction: " + transaction.feedItemUid());
+                } else {
+                    log.info("No round-up. Amount: " + transaction.amount().minorUnits()
+                            + " Transaction: " + transaction.feedItemUid());
+                }
             }
         }
         return totalRoundup;
     }
 
 
+    /**
+     * Checks whether the transaction providing is outgoing, settled and a specific type of payment i.e. master card or
+     * outbound faster payment.
+     *
+     * @param transaction The transaction to be checked
+     * @return True for outbound, settled transaction from a master card or faster payments out source. Otherwise,
+     * False.
+     */
+    private boolean isValidRoundUpTransaction(Transaction transaction) {
+        return transaction.direction().equals("OUT")
+                && transaction.status().equals("SETTLED")
+                && (transaction.source().equals("FASTER_PAYMENTS_OUT") || transaction.source().equals("MASTER_CARD"));
+    }
 }
