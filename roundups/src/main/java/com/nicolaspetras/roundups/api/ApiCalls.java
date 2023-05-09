@@ -3,12 +3,13 @@ package com.nicolaspetras.roundups.api;
 import com.google.gson.Gson;
 import com.nicolaspetras.roundups.data.request.SavingGoalRequestBody;
 import com.nicolaspetras.roundups.data.request.TopUpRequestBody;
+import com.nicolaspetras.roundups.data.response.error.ErrorDetail;
+import com.nicolaspetras.roundups.data.response.error.ErrorResponse;
 import org.apache.commons.text.RandomStringGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
