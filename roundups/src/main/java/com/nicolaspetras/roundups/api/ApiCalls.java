@@ -32,8 +32,8 @@ public class ApiCalls {
     }
 
     /**
-     * Sends a request using the URI provided and returns the resulting response, used to make GET requests to
-     * retrieve data like Accounts or a Transaction Feed.
+     * Sends GET request to retrieve data like Accounts or a Transaction Feed. The request is made using the URI
+     * provided.
      * @param uri The URI to use to make the HTTP request (API call)
      * @return The body of the response received
      */
@@ -46,6 +46,13 @@ public class ApiCalls {
         return sendRequest(request);
     }
 
+    /**
+     * Sends a request to create a Savings Goal
+     * @param accountUid Unique ID of the account that the savings goal should be created under
+     * @param requestBody Provides the data needed to create the Savings Goal as part of the PUT request's body,
+     *                    include data like the name of the Savings Goal
+     * @return The response body in the form of a String
+     */
     public String sendCreateSavingsGoalRequest(String accountUid, SavingGoalRequestBody requestBody) {
         var uri = STARLING_API_BASE_URL + "/api/v2/account/" + accountUid + "/savings-goals";
         var request = HttpRequest.newBuilder(URI.create(uri))
@@ -59,7 +66,15 @@ public class ApiCalls {
 
     }
 
-    public String sendAddMoneyIntoSavingsGoalRequest(String accountUid, String savingsGoalUid, TopUpRequestBody requestBody) {
+    /**
+     * Sends a request to add money to a Savings Goal
+     * @param accountUid Unique ID of the Account, which has the Savings Goal
+     * @param savingsGoalUid Unique ID of the Savings Goal where Money is being added
+     * @param requestBody The amount and currency to be added to the Savings Goal -- will be sent as part of the
+     *                    PUT request's body
+     */
+    public void sendAddMoneyIntoSavingsGoalRequest(String accountUid, String savingsGoalUid,
+                                                   TopUpRequestBody requestBody) {
         var transferUid = generateUid();
         log.info("transferId: " + transferUid);
         var uri = STARLING_API_BASE_URL + "/api/v2/account/" + accountUid + "/savings-goals/"
@@ -72,7 +87,7 @@ public class ApiCalls {
                 .PUT(HttpRequest.BodyPublishers.ofString(this.gson.toJson(requestBody)))
                 .build();
         log.info("Sending an Add Money into Savings Goal Request...");
-        return this.sendRequest(request);
+        this.sendRequest(request);
     }
 
     /**
@@ -118,6 +133,15 @@ public class ApiCalls {
     }
 
     /**
+     * Checks where the responseBody provided indicates that this is an error response
+     * @param responseBody The body of the response received
+     * @return true if it contains errors text, else false
+     */
+    private boolean isErrorResponse(String responseBody) {
+        return responseBody.contains("errors");
+    }
+
+    /**
      * @return a unique Hexadecimal ID in the same format as the Starling Bank API uses
      */
     private String generateUid() {
@@ -131,6 +155,5 @@ public class ApiCalls {
                 + generator.generate(4) + "-"
                 + generator.generate(12);
     }
-
 
 }

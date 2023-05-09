@@ -11,11 +11,11 @@ import com.nicolaspetras.roundups.data.CurrencyAndAmount;
  * @param categoryUid The unique ID of the category that this transaction falls under
  * @param amount The amount transferred in this transaction (the currency and amount in minor units)
  * @param sourceAmount The amount for this transaction at the source
- * @param direction Describes whether the transaction is an incoming or outgoing one -- money coming in or out
+ * @param direction Describes whether the transaction is an incoming (IN) or outgoing one (OUT)
  * @param updatedAt Last time the transaction was updated
  * @param transactionTime The time when the transaction occurred
  * @param settlementTime The time when the transaction was settled
- * @param source How the transaction was executed, e.g. CONTACTLESS, APPLE_PAY, ATM
+ * @param source The method used to execute the transaction, e.g. MASTER_CARD, FASTER_PAYMENTS_OUT
  * @param status The status of the transaction e.g. PENDING, SETTLED
  * @param transactingApplicationUserUid The Application user that made the transaction
  */
