@@ -1,4 +1,6 @@
 # Starling Bank Technical Challenge -- Round Ups Java App
+Author: Nicolas Petras
+
 Round-ups application for Starling Bank Technical Challenge.
 
 ## Requirements
