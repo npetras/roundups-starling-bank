@@ -88,6 +88,14 @@ public class ApiCalls {
             log.info("Response received: " + String.valueOf(response));
             responseBody = response.body();
             log.debug("Response body: " + responseBody);
+
+            if (this.isErrorResponse(responseBody)) {
+                var errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+                log.error("Following errors received in response: ");
+                for(ErrorDetail error : errorResponse.errors()) {
+                    log.error(error.message());
+                }
+            }
         } catch (IllegalArgumentException illegalArgumentException) {
             log.error("Provided an invalid request parameter to the HttpClient: "
                     + illegalArgumentException.getLocalizedMessage());
