@@ -1,7 +1,5 @@
-# Starling Bank Technical Challenge -- Round Ups Java App
-Author: Nicolas Petras
-
-Round-ups application for Starling Bank Technical Challenge.
+# Round Up Application
+Round-up Application that utilises the Starling Bank API.
 
 ## Requirements
 * Java 14 or higher should be enough for the features used, but I used Java 18 during development.
